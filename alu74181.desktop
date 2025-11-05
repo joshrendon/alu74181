@@ -1,0 +1,8 @@
+
+[Desktop Entry]
+Type=Application
+Name=74181 ALU Simulator
+Exec=sh -c "$PWD/alu74181"
+Icon=applications-engineering
+Terminal=false
+Categories=Education;Electronics;

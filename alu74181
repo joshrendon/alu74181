@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Resolve this script to an absolute, real path (follows symlinks)
+if command -v realpath >/dev/null 2>&1; then
+  SCRIPT="$(realpath "$0")"
+else
+  # Portable fallback if realpath isn't available
+  SCRIPT="$0"
+  while [ -L "$SCRIPT" ]; do
+    LINK="$(readlink "$SCRIPT")"
+    case "$LINK" in
+      /*) SCRIPT="$LINK" ;;
+      *)  SCRIPT="$(dirname "$SCRIPT")/$LINK" ;;
+    esac
+  done
+  SCRIPT="$(cd -P "$(dirname "$SCRIPT")" && pwd)/$(basename "$SCRIPT")"
+fi
+
+BASEDIR="$(cd -P "$(dirname "$SCRIPT")" && pwd)"
+
+# Launch Hades with assets next to this script
+GDK_BACKEND=x11 \
+java -Dsun.java2d.uiScale=2 -mx128M \
+  -jar "$BASEDIR/hades.jar" \
+  -file "$BASEDIR/demo-74182-ALU-CLA.hds" \
+  -zoomfit -awt -noautostart
